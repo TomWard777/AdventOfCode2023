@@ -13,7 +13,6 @@ public class Day2
 
         foreach (var line in input)
         {
-            ////var x = GetLineContribution(line);
             var x = GetPowerFromLine(line);
             sum += x;
 

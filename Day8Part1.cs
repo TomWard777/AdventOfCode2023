@@ -1,5 +1,3 @@
-using Microsoft.VisualBasic;
-
 namespace AdventOfCode2023;
 
 public class Day8Part1

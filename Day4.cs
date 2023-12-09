@@ -7,10 +7,6 @@ public class Day4
         ///var input = FileParser.ReadInputFromFile("Test4.txt");
         var input = FileParser.ReadInputFromFile("Day4.txt");
 
-        /*
-        Regex.Replace(x, @"Card [\d]: ", string.Empty)
-        */
-        var cards1 = input.Select(x => ReadInputLineToCard(x)).ToList();
         var cards = input
         .Select(x => ReadInputLineToCard(x))
         .ToDictionary(c => c.Id, c => c);
@@ -40,7 +36,6 @@ public class Day4
         {
             if (cards.ContainsKey(id))
             {
-                ////Console.WriteLine($"Card {card.Id}, score {card.Matches} currently has {card.NumberOfCopies} copies and wins a copy of card {id}");
                 cards[id].NumberOfCopies += card.NumberOfCopies;
             }
         }

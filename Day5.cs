@@ -34,7 +34,6 @@ public class Day5
             sets.Add(new RangeSet(lineBuffer));
         }
 
-        //// TEST
         long min = 10000000000;
         long s;
 

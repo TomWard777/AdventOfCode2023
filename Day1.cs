@@ -59,11 +59,6 @@ public class Day1
         .ToArray();
 
         var ct = numberArray.Count();
-        
-        if (ct == 0)
-        {
-            throw new Exception("Oh shit!");
-        }
 
         return 10 * numberArray[0] + numberArray[ct-1];
     }
