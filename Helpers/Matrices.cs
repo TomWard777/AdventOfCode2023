@@ -14,6 +14,21 @@ public static class Matrices
         return (m, n, mat);
     }
 
+    public static IEnumerable<(int, int)> GetDirectlyAdjacentPlaces(int m, int n, int i, int j)
+    {
+        var places = new List<(int, int)>
+        {
+            (i - 1, j),
+            (i + 1, j),
+            (i, j + 1),
+            (i, j - 1)
+        };
+
+        return places
+        .Where(p => p.Item1 >= 0 && p.Item1 < m && p.Item2 >= 0 && p.Item2 < n)
+        .ToArray();
+    }
+
     public static IEnumerable<(int, int)> GetAdjacentPlaces(int m, int n, int i, int j)
     {
         var places = new List<(int, int)>
@@ -40,6 +55,25 @@ public static class Matrices
             for (int j = 0; j < n; j++)
             {
                 Console.Write(mat[i][j]);
+            }
+            Console.Write("\n");
+        }
+    }
+
+    public static void DrawSubset(int m, int n, IEnumerable<(int, int)> set, char[][] mat)
+    {
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (set.Contains((i, j)))
+                {
+                    Console.Write(mat[i][j]);
+                }
+                else
+                {
+                    Console.Write(' ');
+                }
             }
             Console.Write("\n");
         }
