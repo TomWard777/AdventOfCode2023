@@ -16,7 +16,7 @@ public class Day3
         var input = FileParser.ReadInputFromFile("Test3.txt");
         ////var input = FileParser.ReadInputFromFile("Day3.txt");
 
-        var (m, n, mat) = Matrices.ReadToMatrix(input);
+        var (m, n, mat) = Matrices.ReadToMatrixTuple(input);
 
         var gears = GetGears(m, n, mat);
         var gearNumbers = GetNumbersAdjacentToGears(m, n, mat, gears);

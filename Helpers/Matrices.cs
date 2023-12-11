@@ -2,7 +2,19 @@ namespace AdventOfCode2023;
 
 public static class Matrices
 {
-    public static (int, int, char[][]) ReadToMatrix(IEnumerable<string> input)
+    public static Matrix ReadToMatrix(IEnumerable<string> input)
+    {
+        var m = input.Count();
+        var n = input.First().Length;
+
+        var mat = input
+        .Select(x => x.ToCharArray())
+        .ToArray();
+
+        return new Matrix(m, n, mat);
+    }
+
+    public static (int, int, char[][]) ReadToMatrixTuple(IEnumerable<string> input)
     {
         var m = input.Count();
         var n = input.First().Length;
@@ -46,6 +58,18 @@ public static class Matrices
         return places
         .Where(p => p.Item1 >= 0 && p.Item1 < m && p.Item2 >= 0 && p.Item2 < n)
         .ToArray();
+    }
+
+    public static void Draw(Matrix mat)
+    {
+        for (int i = 0; i < mat.RowCount; i++)
+        {
+            for (int j = 0; j < mat.ColCount; j++)
+            {
+                Console.Write(mat.Entries[i][j]);
+            }
+            Console.Write("\n");
+        }
     }
 
     public static void Draw(int m, int n, char[][] mat)

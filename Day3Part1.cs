@@ -16,7 +16,7 @@ public class Day3Part1
         ////var input = FileParser.ReadInput("Test3.txt");
         var input = FileParser.ReadInputFromFile("Day3.txt");
 
-        var (m, n, mat) = Matrices.ReadToMatrix(input);
+        var (m, n, mat) = Matrices.ReadToMatrixTuple(input);
 
         var includedPlaces = GetEngineAdjacentPlaces(m, n, mat);
         var numbers = GetIncludedNumbers(m, n, mat, includedPlaces);

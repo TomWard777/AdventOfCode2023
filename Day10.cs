@@ -11,7 +11,7 @@ public class Day10
         //var input = FileParser.ReadInputFromFile("Test10.txt");
         var input = FileParser.ReadInputFromFile("Day10.txt");
 
-        (_m, _n, _mat) = Matrices.ReadToMatrix(input);
+        (_m, _n, _mat) = Matrices.ReadToMatrixTuple(input);
     }
 
     public void Run()
