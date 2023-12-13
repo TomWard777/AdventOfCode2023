@@ -1,46 +1,25 @@
-using System.Security.Cryptography.X509Certificates;
-
 namespace AdventOfCode2023;
 
 public class Day11
 {
     public void Run()
     {
-        var input = FileParser.ReadInputFromFile("Test11.txt");
-        //var input = FileParser.ReadInputFromFile("Day11.txt");
+        //var input = FileParser.ReadInputFromFile("Test11.txt");
+        var input = FileParser.ReadInputFromFile("Day11.txt");
 
         var mat = Matrices.ReadToMatrix(input);
 
         var emptyRows = GetEmptyRows(mat);
         var emptyCols = GetEmptyColumns(mat);
 
-        foreach (var k in emptyRows)
-        {
-            mat = InsertRow(k, mat);
-            emptyRows = emptyRows.Select(i => i + 1).ToList();
-            Console.WriteLine(k);
-        }
-        
-        Console.WriteLine("Cols");
-
-        foreach (var k in emptyCols)
-        {
-            mat = InsertColumn(k, mat);
-            emptyCols = emptyCols.Select(i => i + 1).ToList();
-            Console.WriteLine(k);
-        }
-
         var points = GetPoints(mat);
 
-        var sum = 0;
+        var sum = 0L;
         foreach (var p in points)
         {
             foreach (var q in points)
             {
-                sum += Dist(p, q);
-                Console.WriteLine(p.Item1 + " " + p.Item2);
-                Console.WriteLine(q.Item1 + " " + q.Item2);
-                Console.WriteLine(Dist(p, q));
+                sum += ExpandedDist(p, q, emptyRows, emptyCols, 1000000L);
             }
         }
 
@@ -55,12 +34,36 @@ public class Day11
         {
             return 0;
         }
-        return Math.Abs(point1.Item1 - point2.Item1) + Math.Abs(point1.Item2 - point2.Item2) -1;
+        return Math.Abs(point1.Item1 - point2.Item1) + Math.Abs(point1.Item2 - point2.Item2);
     }
 
-    public List<(int, int)> GetPoints(Matrix mat)
+    public long ExpandedDist(
+        (long, long) point1,
+        (long, long) point2,
+        IEnumerable<long> emptyRows,
+        IEnumerable<long> emptyCols,
+        long expansionFactor)
     {
-        var result = new List<(int, int)>();
+        if (point1 == point2)
+        {
+            return 0;
+        }
+
+        var numRows = emptyRows
+        .Where(k => (point1.Item1 <= k && k < point2.Item1) || (point2.Item1 <= k && k < point1.Item1))
+        .Count();
+
+        var numCols = emptyCols
+        .Where(k => (point1.Item2 <= k && k < point2.Item2) || (point2.Item2 <= k && k < point1.Item2))
+        .Count();
+
+        return Math.Abs(point1.Item1 - point2.Item1) + Math.Abs(point1.Item2 - point2.Item2)
+        + (numRows + numCols) * (expansionFactor - 1);
+    }
+
+    public List<(long, long)> GetPoints(Matrix mat)
+    {
+        var result = new List<(long, long)>();
 
         for (int i = 0; i < mat.RowCount; i++)
         {
@@ -76,9 +79,9 @@ public class Day11
         return result;
     }
 
-    public List<int> GetEmptyRows(Matrix mat)
+    public List<long> GetEmptyRows(Matrix mat)
     {
-        var result = new List<int>();
+        var result = new List<long>();
 
         for (int i = 0; i < mat.RowCount; i++)
         {
@@ -100,9 +103,9 @@ public class Day11
         return result;
     }
 
-    public List<int> GetEmptyColumns(Matrix mat)
+    public List<long> GetEmptyColumns(Matrix mat)
     {
-        var result = new List<int>();
+        var result = new List<long>();
 
         for (int j = 0; j < mat.ColCount; j++)
         {

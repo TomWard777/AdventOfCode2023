@@ -1,15 +1,9 @@
-using System.Text.RegularExpressions;
-
 namespace AdventOfCode2023;
 
 public class Day12
 {
     public void Run()
     {
-        //// 7807 too high
-
-        //// ??.??????#?#?#??..? 1,8
-
         //var input = FileParser.ReadInputFromFile("Test12.txt").ToArray();
         var input = FileParser.ReadInputFromFile("Day12.txt").ToArray();
 
@@ -17,8 +11,6 @@ public class Day12
         .ToList();
 
         var sum = 0;
-
-        Console.WriteLine("abcde".RepeatString(5));
 
         foreach (var gp in groups)
         {
@@ -118,11 +110,6 @@ public class Day12
         }
         else
         {
-            // if (size == positions.Length)
-            // {
-            //     Console.WriteLine("This can begin with " + size);
-            //     Console.WriteLine(positions);
-            // }
             return true;
         }
     }
