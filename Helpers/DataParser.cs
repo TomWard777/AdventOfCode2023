@@ -2,6 +2,11 @@ namespace AdventOfCode2023;
 
 public static class DataParser
 {
+    public static string RepeatString(this string text, int n)
+    {
+        return string.Concat(Enumerable.Repeat(text, n));
+    }
+
     public static Dictionary<char, int> GetNumberCharDictionary()
     {
         return new Dictionary<char, int>
