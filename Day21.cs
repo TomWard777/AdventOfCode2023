@@ -1,9 +1,8 @@
-using System.Diagnostics;
-
 namespace AdventOfCode2023;
 
 public class Day21
 {
+    // 902 too low
     private readonly Random _random;
 
     public Day21()
@@ -13,14 +12,14 @@ public class Day21
 
     public void Run()
     {
-        var input = FileParser.ReadInputFromFile("Test21.txt");
-        //var input = FileParser.ReadInputFromFile("Day21.txt");
+        var numberOfSteps = 64;
+        var attempts = 5000000;
+
+        //var input = FileParser.ReadInputFromFile("Test21.txt");
+        var input = FileParser.ReadInputFromFile("Day21.txt");
 
         var mat = Matrices.ReadToMatrix(input);
         var startingPosition = GetStartingPoint(mat);
-
-        var numberOfSteps = 6;
-        var attempts = 100;
         var steps = new List<((int, int), int)>();
 
         for (int count = 0; count < attempts; count++)
@@ -34,8 +33,8 @@ public class Day21
 
             for (int k = 0; k < numberOfSteps; k++)
             {
-                var next = GetNextPosition(position, path, mat);
-                if (next == (-1, -1))
+                position = GetNextPosition(position, path, mat);
+                if (position == (-1, -1))
                 {
                     break;
                 }
@@ -50,15 +49,20 @@ public class Day21
             }
         }
 
-        foreach(var step in steps)
-        {
-            Console.WriteLine($"({step.Item1.Item1} {step.Item1.Item2}) {step.Item2}")
-        }
+        // foreach(var step in steps)
+        // {
+        //     Console.WriteLine($"({step.Item1.Item1} {step.Item1.Item2}) {step.Item2}");
+        // }
 
-        var evenStepsCount = steps.Select(x => x.Item2 == 0).Count();
+        var evenSteps = steps
+        .Where(x => x.Item2 == 1)
+        .Select(x => x.Item1)
+        .ToList();
+
+        DrawPath(mat, evenSteps);
 
         Console.WriteLine("\nRESULT:");
-        Console.WriteLine(evenStepsCount);
+        Console.WriteLine(evenSteps.Count);
     }
 
     public (int, int) GetStartingPoint(Matrix mat)

@@ -100,8 +100,6 @@ public class Day23
 
             if (!possibleSteps.Any())
             {
-                // We haven't reached the bottom row but have run out of possible steps. 
-                // We have not reached the exit so the path is invalid.
                 path.RemoveAll(x => true);
                 return (-1, -1);
             }

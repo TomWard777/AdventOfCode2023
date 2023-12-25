@@ -1,8 +1,10 @@
+using System.ComponentModel;
+
 namespace AdventOfCode2023;
 
-public class Day16
+public class Day16Part1
 {
-    private const int _numberOfIterations = 750;
+    // 6535 is too low
     private List<(int, int)> _visited = new List<(int, int)>();
     private List<Beam> _beams = new List<Beam>();
 
@@ -12,41 +14,16 @@ public class Day16
         var input = FileParser.ReadInputFromFile("Day16.txt");
 
         var mat = Matrices.ReadToMatrix(input);
-        var startingPoints = new List<Beam>();
 
-        for (int i = 0; i < mat.RowCount; i++)
-        {
-            startingPoints.Add(new Beam(Facing.Right, (i, 0)));
-            startingPoints.Add(new Beam(Facing.Left, (i, mat.ColCount - 1)));
-        }
+        _beams.Add(new Beam(Facing.Right, (0, 0)));
+        _visited = new List<(int, int)>() { (0, 0) };
 
-        for (int j = 0; j < mat.ColCount; j++)
-        {
-            startingPoints.Add(new Beam(Facing.Down, (0, j)));
-            startingPoints.Add(new Beam(Facing.Up, (mat.RowCount - 1, j)));
-        }
+        var total = 800;
 
-        var max = 0;
-        foreach (var beam in startingPoints)
-        {
-            var score = GetVisitedCount(mat, beam);
-
-            max = Math.Max(score, max);
-            Console.WriteLine(max);
-        }
-
-        Console.WriteLine("RESULT:");
-        Console.WriteLine(max);
-    }
-
-    public int GetVisitedCount(Matrix mat, Beam initialBeam)
-    {
-        _beams = new List<Beam>() { initialBeam };
-        _visited = new List<(int, int)>() { initialBeam.Position };
-
-        for (var ct = 0; ct < _numberOfIterations; ct++)
+        for (var ct = 0; ct < total; ct++)
         {
             ProgressBeamsOneStep(_beams, mat);
+            //DrawBeams(mat, _beams);
 
             if (!_beams.Any())
             {
@@ -55,18 +32,24 @@ public class Day16
 
             if (ct % 10 == 0)
             {
-                Console.Write($"{_numberOfIterations - ct}  ");
+                Console.WriteLine($"{total - ct}");
             }
         }
-
-        Console.WriteLine();
 
         _visited = _visited
         .Distinct()
         .Where(p => IsPositionValid(p, mat))
         .ToList();
 
-        return _visited.Count;
+        DrawPath(mat, _visited);
+
+        // foreach (var p in _visited)
+        // {
+        //     Console.WriteLine($"({p.Item1}, {p.Item2})");
+        // }
+
+        Console.WriteLine("RESULT:");
+        Console.WriteLine(_visited.Count);
     }
 
     public void ProgressBeamsOneStep(
@@ -90,7 +73,13 @@ public class Day16
         beams = newBeams;
 
         _visited.AddRange(GetNewBeamPositions(beams, _visited));
+
+        ////_visited = _visited.Distinct().ToList();
         _beams = beams;
+        // foreach (var p in _visited)
+        // {
+        //     Console.WriteLine($"{p.Item1} {p.Item2}");
+        // }
     }
 
     public List<(int, int)> GetNewBeamPositions(
@@ -243,4 +232,16 @@ public class Day16
             Console.Write("\n");
         }
     }
+}
+
+public class Beam
+{
+    public Beam(Facing facing, (int, int) position)
+    {
+        Facing = facing;
+        Position = position;
+    }
+
+    public Facing Facing { get; set; }
+    public (int, int) Position { get; set; }
 }
